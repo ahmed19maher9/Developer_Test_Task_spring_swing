@@ -1,0 +1,721 @@
+{
+	"info": {
+		"_postman_id": "customer-management-api",
+		"name": "Customer Management API",
+		"description": "Postman collection for Customer Management REST API endpoints with API Key authentication, search, and pagination support",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Get All Customers (Paginated)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers?page=0&size=10&sortBy=id&sortDir=asc",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number (default: 0)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Number of items per page (default: 10)"
+								},
+								{
+									"key": "sortBy",
+									"value": "id",
+									"description": "Field to sort by (default: id)"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc",
+									"description": "Sort direction - asc or desc (default: asc)"
+								}
+							]
+						},
+						"description": "Retrieve all customers with pagination and sorting"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers?page=0&size=10",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"content\": [\n\t\t{\"id\": 1, \"name\": \"John Doe\", \"email\": \"john@test.com\", \"phone\": \"+123456789\", \"createdAt\": \"2025-01-15T10:30:00\"},\n\t\t{\"id\": 2, \"name\": \"Jane Smith\", \"email\": \"jane@test.com\", \"phone\": \"+987654321\", \"createdAt\": \"2025-01-16T14:20:00\"}\n\t],\n\t\"currentPage\": 0,\n\t\"totalItems\": 2,\n\t\"totalPages\": 1,\n\t\"size\": 10\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\"error\":\"Unauthorized: Invalid or missing API key\"}"
+						}
+					]
+				},
+				{
+					"name": "Search Customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers?search=John&page=0&size=10",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers"],
+							"query": [
+								{
+									"key": "search",
+									"value": "John",
+									"description": "Search term to filter by name, email, or phone"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Search customers by name, email, or phone with pagination"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers?search=John",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"],
+									"query": [
+										{
+											"key": "search",
+											"value": "John"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"content\": [\n\t\t{\"id\": 1, \"name\": \"John Doe\", \"email\": \"john@test.com\", \"phone\": \"+123456789\", \"createdAt\": \"2025-01-15T10:30:00\"}\n\t],\n\t\"currentPage\": 0,\n\t\"totalItems\": 1,\n\t\"totalPages\": 1,\n\t\"size\": 10\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Customer by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Customer ID"
+								}
+							]
+						},
+						"description": "Retrieve a single customer by their ID"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"id\": 1,\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+123456789\",\n\t\"createdAt\": \"2025-01-15T10:30:00\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/999",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "999"]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"body": "Customer not found with id: 999"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\"error\":\"Unauthorized: Invalid or missing API key\"}"
+						}
+					]
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers"]
+						},
+						"description": "Create a new customer"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+123456789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"id\": 1,\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+123456789\",\n\t\"createdAt\": \"2025-01-15T10:30:00\"\n}"
+						},
+						{
+							"name": "Conflict - Email Exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Jane Smith\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+987654321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"body": "Customer with email john@test.com already exists"
+						},
+						{
+							"name": "Bad Request - Validation Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"\",\n\t\"email\": \"invalid-email\",\n\t\"phone\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"name\": \"Name is required\",\n\t\"email\": \"Email should be valid\"\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"john@test.com\",\n\t\"phone\": \"+123456789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers"]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\"error\":\"Unauthorized: Invalid or missing API key\"}"
+						}
+					]
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"John Smith\",\n\t\"email\": \"john.smith@test.com\",\n\t\"phone\": \"+987654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Customer ID"
+								}
+							]
+						},
+						"description": "Update an existing customer"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"John Smith\",\n\t\"email\": \"john.smith@test.com\",\n\t\"phone\": \"+987654321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n\t\"id\": 1,\n\t\"name\": \"John Smith\",\n\t\"email\": \"john.smith@test.com\",\n\t\"phone\": \"+987654321\",\n\t\"createdAt\": \"2025-01-15T10:30:00\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"John Smith\",\n\t\"email\": \"john.smith@test.com\",\n\t\"phone\": \"+987654321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers/999",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "999"]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"body": "Customer not found with id: 999"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"John Smith\",\n\t\"email\": \"john.smith@test.com\",\n\t\"phone\": \"+987654321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\"error\":\"Unauthorized: Invalid or missing API key\"}"
+						}
+					]
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "secret-api-key-12345"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["customers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Customer ID"
+								}
+							]
+						},
+						"description": "Delete a customer by ID"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/999",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "999"]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"body": "Customer not found with id: 999"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customers/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["customers", "1"]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\"error\":\"Unauthorized: Invalid or missing API key\"}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "secret-api-key-12345",
+			"type": "string"
+		}
+	]
+}
